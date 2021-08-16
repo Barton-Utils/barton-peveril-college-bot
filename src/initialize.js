@@ -400,7 +400,7 @@ class ClientAPI {
 		this.client.logger.alert(`Processing these global slash commands: ${slashCommandNames.join(', ').toUpperCase()}`);
 
 		await rest.put(
-			Routes.applicationCommands('876869839300472835'),
+			Routes.applicationGuildCommands('876869839300472835', '875736589836365864'),
 			{ body: slashCommands },
 		).catch(e => {
 			console.log(e);

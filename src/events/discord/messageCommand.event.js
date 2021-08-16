@@ -1,8 +1,4 @@
-const { KeyvBuilder, Driver } = require('cloudlink-hv/lib/keyv');
-
-const prefix = process.env.PREFIX
-const admin_lock = process.env.ADMIN_LOCK
-const trust_lock = process.env.TRUST_LOCK
+const prefix = process.env.PREFIX;
 
 class Event {
 	constructor(parent, client) {
@@ -22,9 +18,7 @@ class Event {
 	}
 
 	async update(parent) {
-		this._state.persist = {
-			cache: (new KeyvBuilder(Driver.MemoryStore)),
-		};
+		return true;
 	}
 
 	async post(client, chain) {
@@ -59,81 +53,62 @@ class Event {
 		// Load the Command from Memory
 		const r = await this.clientAPI.commands.get(command);
 
-		// // Validate Permissions and Toggles
-		// let trust = await this._state.persist.cache.get('trust.' + message.author.id);
-		// let admin = await this._state.persist.cache.get('admin.' + message.author.id);
-
-		// Get Permissions from Guild
-		if ((r._state.options.admin_lock && admin === undefined) || (r._state.options.trust_lock && trust === undefined)) {
-			// const guild = await client.guilds.fetch(require(path.resolve(this.clientAPI.basePath, 'options.json')).server);
-			const member = await message.guild.members.fetch(message.member.id);
-
-			admin = member.roles.cache.has(admin_lock);
-			trust = member.roles.cache.has(trust_lock);
-
-			await this._state.persist.cache.set(`admin.${message.author.id}`, admin, 8000);
-			await this._state.persist.cache.set(`trust.${message.author.id}`, trust, 15000);
-		}
-
-		if (r._state.options.admin_lock && !(admin)) {
-			return;
-		}
-		if (r._state.options.trust_lock && !(admin || trust)) {
-			return;
-		}
 
 		// TO-DO stick command overides here like hidden etc
 
-		// Execute that Command (r)
-		const name = (message.guild !== null ? message.guild.name : null);
+		// Check if user has any of the required roles or is a whitelisted user
+		if (r._state.options.permissions.roles.some((r) => client.guilds.cache.get('875736589836365864').members.cache.get(message.author.id).roles.cache.has(r)) || (r._state.options.permissions.users.includes(message.author.id))) {
+			const name = (message.guild !== null ? message.guild.name : null);
 
-		let pre = null;
-		if (r.pre !== undefined) {
-			pre = await r.pre(client, message, args).catch(async (err) => {
+			let pre = null;
+			if (r.pre !== undefined) {
+				pre = await r.pre(client, message, args).catch(async (err) => {
+					client.logger.error(err);
+					pre = false;
+				});
+			}
+
+			if (pre === false) {
+				if (r.finally !== undefined) {
+					await r.finally(client, {}, message, args).catch(async (err) => {
+						client.logger.error(err);
+					});
+				}
+				return;
+			}
+
+			let process = null;
+			await r.execute(client, pre, message, args).catch(async (err) => {
 				client.logger.error(err);
-				pre = false;
+				process = false;
 			});
-		}
 
-		if (pre === false) {
+			if (process === false) {
+				if (r.finally !== undefined) {
+					await r.finally(client, {}, message, args).catch(async (err) => {
+						client.logger.error(err);
+					});
+				}
+				return;
+			}
+
+			let post = null;
+			if (r.post !== undefined) {
+				post = await r.post(client, process, message, args).catch(async (err) => {
+					client.logger.error(err);
+					post = null;
+				});
+			}
+
 			if (r.finally !== undefined) {
-				await r.finally(client, {}, message, args).catch(async (err) => {
+				await r.finally(client, post, message, args).catch(async (err) => {
 					client.logger.error(err);
 				});
 			}
-			return;
+
+			client.logger.info(`Command executed by ${name} (${message.author.tag}) | ${message.channel.name} (${message.channel.id}) | ${message.content}`);
 		}
 
-		let process = null;
-		await r.execute(client, pre, message, args).catch(async (err) => {
-			client.logger.error(err);
-			process = false;
-		});
-
-		if (process === false) {
-			if (r.finally !== undefined) {
-				await r.finally(client, {}, message, args).catch(async (err) => {
-					client.logger.error(err);
-				});
-			}
-			return;
-		}
-
-		let post = null;
-		if (r.post !== undefined) {
-			post = await r.post(client, process, message, args).catch(async (err) => {
-				client.logger.error(err);
-				post = null;
-			});
-		}
-
-		if (r.finally !== undefined) {
-			await r.finally(client, post, message, args).catch(async (err) => {
-				client.logger.error(err);
-			});
-		}
-
-		client.logger.info(`Command executed by ${name} (${message.author.tag}) | ${message.channel.name} (${message.channel.id}) | ${message.content}`);
 
 		return true;
 	}

@@ -10,8 +10,8 @@ class Command {
 			This is a command that is used for development and testing purposes not to be executed in production or by non-devs.`,
 			options: {
 				permissions: {
-					admin_lock: false,
-					trust_lock: false,
+					roles: ['875741719050715166'],
+					users: [],
 				},
 				restrictions: {
 					unstable: true,
@@ -60,7 +60,7 @@ class Command {
 	}
 
 	async execute(client, chain, message, args) {
-		message.channel.send('a')
+		console.log(await message.guild.commands.set([]))
 	}
 
 	async slash(client, interaction) {

@@ -10,8 +10,8 @@ class Command {
 			Make me say something!`,
 			options: {
 				permissions: {
-					admin_lock: true,
-					trust_lock: false,
+					roles: [],
+					users: [],
 				},
 				restrictions: {
 					unstable: false,
@@ -60,11 +60,11 @@ class Command {
 	}
 
 	async execute(client, chain, message, args) {
-		message.channel.send('a')
+		message.channel.send('a');
 	}
 
 	async slash(client, interaction) {
-		console.log(interaction)
+		console.log(interaction);
 		await interaction.reply({ content:'Welcome to testing!', ephemeral: true });
 		await interaction.followUp({ content: 'Testing stuff!', ephemeral: true });
 	}

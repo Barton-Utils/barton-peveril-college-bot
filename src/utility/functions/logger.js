@@ -10,8 +10,9 @@ module.exports = {
 	error: function(message, err = null) {
 		if (err !== null) {
 			log(`${chalk.bold.red('(ERROR)')} ${chalk.dim.yellow(`[${dateFormat(now, 'yyyy-mm-dd HH:MM:ss')}]`)} ${message}`);
-			log(err)
-		} else {
+			log(err);
+		}
+		else {
 			log(`${chalk.bold.red('(ERROR)')} ${chalk.dim.yellow(`[${dateFormat(now, 'yyyy-mm-dd HH:MM:ss')}]`)} ${message}`);
 		}
 	},
