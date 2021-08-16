@@ -1,0 +1,1 @@
+# A discord bot writen in javascript with mysql db integration 

@@ -1,0 +1,6 @@
+{ 
+    "id": "710855805393436694",
+    "client-secret": "_qjY8qSO2rhDpfQgdBmaxZYcTymHHYhE",
+    "public-key": "836addc825ccb85e1a5be71543a0fe6de6cfa5dc2f61aa5d182bf3d1fae6f469",
+    "admin-invite": "https://discord.com/api/oauth2/authorize?client_id=710855805393436694&permissions=8&scope=bot"
+}

@@ -1,0 +1,11 @@
+{
+  "en_US": {
+    "PERMS": {
+      "USE_VAD": "Use Voice Activity",
+      "EVERYONE": "@everyone, @here, and All Roles",
+      "VIEW_CHANNEL": "View Text Channels & See Voice Channels",
+      "TTS": "TTS",
+      "CREATE_INSTANT_INVITE": "Create Invite"
+    }
+  }
+}

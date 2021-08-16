@@ -1,0 +1,35 @@
+{
+  "name": "the-bot-to-end-all-bots",
+  "version": "1.2.0",
+  "description": "A discord bot made to replace any that you may already have, made to orignaly replace a bot used by hypixel guild the cookie factory",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "fix": "npx eslint ./ --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ru-Pirie/bot-destroyer.git"
+  },
+  "author": "Ru-Pirie",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/Ru-Pirie/bot-destroyer/issues"
+  },
+  "homepage": "https://github.com/Ru-Pirie/bot-destroyer#readme",
+  "dependencies": {
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "chalk": "^4.1.2",
+    "chalk-table": "^1.0.2",
+    "cloudlink-hv": "0.0.2",
+    "common-tags": "^1.8.0",
+    "dateformat": "^4.5.1",
+    "discord-api-types": "^0.22.0",
+    "discord.js": "^13.1.0",
+    "dotenv": "^10.0.0",
+    "json5": "^2.2.0",
+    "pretty-ms": "^7.0.1",
+    "standard-version": "^9.3.1",
+    "walk": "^2.3.14"
+  }
+}
