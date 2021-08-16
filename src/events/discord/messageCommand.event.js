@@ -57,7 +57,7 @@ class Event {
 		// TO-DO stick command overides here like hidden etc
 
 		// Check if user has any of the required roles or is a whitelisted user
-		if (r._state.options.permissions.roles.some((r) => client.guilds.cache.get('875736589836365864').members.cache.get(message.author.id).roles.cache.has(r)) || (r._state.options.permissions.users.includes(message.author.id))) {
+		if (r._state.options.permissions.roles.some((role) => client.guilds.cache.get('875736589836365864').members.cache.get(message.author.id).roles.cache.has(role)) || (r._state.options.permissions.users.includes(message.author.id))) {
 			const name = (message.guild !== null ? message.guild.name : null);
 
 			let pre = null;

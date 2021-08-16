@@ -60,7 +60,7 @@ class Command {
 	}
 
 	async execute(client, chain, message, args) {
-		console.log(await message.guild.commands.set([]))
+		console.log(await message.guild.commands.set([]));
 	}
 
 	async slash(client, interaction) {

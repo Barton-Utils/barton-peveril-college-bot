@@ -34,9 +34,10 @@ class utilityService {
 		if (custom !== null) {
 			whitelist += custom;
 		}
-		for(c in s) // character in string
+		// character in string
 		// if whitelist string doesn't include the character, break
-		{
+
+		for(c in s) {
 			if(!whitelist.includes(s[c])) {return false;}
 		}
 		return true;
@@ -278,7 +279,8 @@ class utilityService {
  */
 	trimStringFromArray(arr, maxLen = 2048, joinChar = '\n') {
 		let string = arr.join(joinChar);
-		const diff = maxLen - 15; // Leave room for "And ___ more..."
+		const diff = maxLen - 15;
+		// Leave room for "And ___ more..."
 		if (string.length > maxLen) {
 			string = string.slice(0, string.length - (string.length - diff));
 			string = string.slice(0, string.lastIndexOf(joinChar));
@@ -330,10 +332,10 @@ class utilityService {
 		if (
 		// Check channel and permissions
 			!systemChannel ||
-      !systemChannel.viewable ||
-      !systemChannel
-      	.permissionsFor(guild.me)
-      	.has(['SEND_MESSAGES', 'EMBED_LINKS'])
+			!systemChannel.viewable ||
+			!systemChannel
+				.permissionsFor(guild.me)
+				.has(['SEND_MESSAGES', 'EMBED_LINKS'])
 		) { return; }
 
 		systemChannel.send(new EmbedFactory()
@@ -391,7 +393,7 @@ class utilityService {
 			user.data = await client.users.cache.get(args[argsStart]);
 
 			if(!user.data) {
-				user.data = await client.users.fetch(args[argsStart], true).catch(() => {});
+				user.data = await client.users.fetch(args[argsStart], true).catch((e) => { console.log(e); });
 				user.presence = false;
 				user.type = 'fetch';
 			}
@@ -425,7 +427,7 @@ class utilityService {
 	 * @param {Args} args
 	 * @param {Number} argsStart
 	 */
-	 async getMember(client, message, args, argsStart) {
+	async getMember(client, message, args, argsStart) {
 		const start = await Date.now();
 		const isID = !isNaN(args[argsStart]);
 

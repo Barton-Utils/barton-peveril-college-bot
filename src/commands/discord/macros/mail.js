@@ -5,13 +5,13 @@ class Command {
 		this.parent = parent;
 		this.client = client;
 		this._state = {
-			triggers: ['echo'],
+			triggers: ['mail'],
 			description: oneLine`
-			Make me say something!`,
+			Send you the link to your mail`,
 			options: {
 				permissions: {
 					roles: [],
-					users: ['436876982794452992'],
+					users: [],
 				},
 				restrictions: {
 					unstable: false,
@@ -19,7 +19,7 @@ class Command {
 					dangerous: false,
 				},
 			},
-			examples: ['say <args>'],
+			examples: ['qxtra'],
 			author: 'Rubens G Pirie <rubens.pirie@gmail.com> [436876982794452992]',
 			maintainers: [{
 				name: 'Rubens G Pirie',
@@ -41,13 +41,8 @@ class Command {
 
 	async register(slashInstance) {
 		const data = new slashInstance()
-			.setName('echo')
-			.setDescription('Make me say something!')
-			.addStringOption(option =>
-				option
-					.setName('message')
-					.setDescription('The Message that you want to send'));
-
+			.setName('mail')
+			.setDescription('Get link to your Barton email.');
 		return data;
 	}
 
@@ -65,9 +60,7 @@ class Command {
 	}
 
 	async slash(client, interaction) {
-		console.log(interaction);
-		await interaction.reply({ content:'Welcome to testing!', ephemeral: true });
-		await interaction.followUp({ content: 'Testing stuff!', ephemeral: true });
+		await interaction.reply({ content:'https://mail.google.com/mail/u/0/#inbox', ephemeral: true });
 	}
 
 }

@@ -5,13 +5,13 @@ class Command {
 		this.parent = parent;
 		this.client = client;
 		this._state = {
-			triggers: ['echo'],
+			triggers: ['classroom', 'gclass'],
 			description: oneLine`
-			Make me say something!`,
+			Send you the link to google classroom`,
 			options: {
 				permissions: {
 					roles: [],
-					users: ['436876982794452992'],
+					users: [],
 				},
 				restrictions: {
 					unstable: false,
@@ -19,7 +19,7 @@ class Command {
 					dangerous: false,
 				},
 			},
-			examples: ['say <args>'],
+			examples: ['classrom'],
 			author: 'Rubens G Pirie <rubens.pirie@gmail.com> [436876982794452992]',
 			maintainers: [{
 				name: 'Rubens G Pirie',
@@ -41,13 +41,8 @@ class Command {
 
 	async register(slashInstance) {
 		const data = new slashInstance()
-			.setName('echo')
-			.setDescription('Make me say something!')
-			.addStringOption(option =>
-				option
-					.setName('message')
-					.setDescription('The Message that you want to send'));
-
+			.setName('classroom')
+			.setDescription('Get link to the Barton google classroom.');
 		return data;
 	}
 
@@ -65,9 +60,7 @@ class Command {
 	}
 
 	async slash(client, interaction) {
-		console.log(interaction);
-		await interaction.reply({ content:'Welcome to testing!', ephemeral: true });
-		await interaction.followUp({ content: 'Testing stuff!', ephemeral: true });
+		await interaction.reply({ content:'https://classroom.google.com/a/barton.ac.uk/', ephemeral: true });
 	}
 
 }
