@@ -71,6 +71,10 @@ class Event {
 
 		// this.client.Driver.alert(`Took ${prettyMs(client.uptime)} to run ${__filename.split('\\').pop()} for PROCESS`);
 
+		client.user.setActivity('over you dumbasses', {
+			type: 'WATCHING',
+		});
+
 		this.client.logger.info('Client has readied and initialized connection with discord using account:');
 		this.client.logger.info(`User: ${client.user.tag}`);
 		this.client.logger.info(`Application ID: ${client.user.id}`);
