@@ -1,0 +1,1 @@
+TypeError: message.guild.channels.cache.get(...).join is not a function

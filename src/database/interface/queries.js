@@ -3,20 +3,39 @@ class Query {
 		this.pool = pool;
 	}
 
-	/**
-     * Fetches value from MISC DB when given a name to search for if none is found
-     * it will return false. Returned value if any is a string.
-     *
-     * @param {string} name The name of the variable
-     *
-     * @returns {string} The value of the variable
-    **/
-	async getVar(name) {
-		const statement = 'SELECT value FROM MISC WHERE name = ?';
-		const params = [name];
+	async allBirthdays() {
+		const statement = 'SELECT * FROM birthday';
 
-		const result = await this.pool.query(statement, params);
-		return result;
+		return await this.pool.query(statement);
+
+	}
+
+	async getBirthday(id) {
+		const statement = 'SELECT * FROM birthday WHERE id = ?';
+		const params = [id];
+
+		return await this.pool.query(statement, params);
+	}
+
+	async delBirthday(id) {
+		const statment = 'DELETE FROM BIRTHDAY WHERE id = ?';
+		const params = [id];
+
+		return await this.pool.query(statment, params);
+	}
+
+	async updateBirthdayMessage(id, message) {
+		const statment = 'UPDATE BIRTHDAY SET message = ? WHERE id = ?';
+		const params = [message, id];
+
+		return await this.pool.query(statment, params);
+	}
+
+	async updateBirthdayImage(id, image) {
+		const statment = 'UPDATE BIRTHDAY SET img = ? WHERE id = ?';
+		const params = [image, id];
+
+		return await this.pool.query(statment, params);
 	}
 }
 

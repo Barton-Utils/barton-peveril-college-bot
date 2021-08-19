@@ -1,0 +1,10 @@
+OkPacket {
+  fieldCount: 0,
+  affectedRows: 0,
+  insertId: 0,
+  serverStatus: 2,
+  warningCount: 0,
+  message: '(Rows matched: 0  Changed: 0  Warnings: 0',
+  protocol41: true,
+  changedRows: 0
+}

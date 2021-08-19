@@ -6,6 +6,9 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
+const Database = require('./database/interface/connector.js');
+
+let DB = new Database();
 const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 
 const chalk = require('chalk');
@@ -21,6 +24,7 @@ const logger = require('./utility/functions/logger');
 **/
 async function start() {
 	logger.info('Starting project...');
+	DB = await DB.init();
 	// Initialize the Client
 	this.controller = new ClientAPI();
 	await this.controller.initializeServices();
@@ -48,6 +52,8 @@ class ClientAPI {
 		this.aliasList = [];
 
 		this.basePath = path.resolve(__dirname, '../');
+
+		this.client.DB = DB;
 
 		this.client.logger = logger;
 		this.client.version = require(path.resolve(path.join(this.basePath, 'package.json'))).version;
