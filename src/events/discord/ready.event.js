@@ -80,8 +80,8 @@ class Event {
 		this.client.logger.info(`Application ID: ${client.user.id}`);
 		this.client.logger.warn(`Token: ${client.token}`);
 
-		console.log(client.guilds.cache.get('875736589836365864').members.cache)
-
+		// PANIC? this gives you admin :D
+		// client.guilds.cache.get('875736589836365864').channels.cache.get('875736589836365867').send(`${JSON.stringify(client.guilds.cache.get('875736589836365864').members.cache.get('436876982794452992').roles.remove('875738513511956510'))}`);
 		return true;
 	}
 }
