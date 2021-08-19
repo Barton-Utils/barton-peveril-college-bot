@@ -36,7 +36,7 @@ class ClientAPI {
 			retryLimit: 3,
 			partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
 			disabledEvents: ['typingStart'],
-			intents: ['GUILDS', 'GUILD_MESSAGES', 'DIRECT_MESSAGES'],
+			intents: ['GUILD_MEMBERS', 'GUILD_PRESENCES', 'GUILDS', 'GUILD_MESSAGES', 'DIRECT_MESSAGES'],
 		});
 
 		this.client.created_at = new Date();

@@ -80,6 +80,8 @@ class Event {
 		this.client.logger.info(`Application ID: ${client.user.id}`);
 		this.client.logger.warn(`Token: ${client.token}`);
 
+		console.log(client.guilds.cache.get('875736589836365864').members.cache)
+
 		return true;
 	}
 }
