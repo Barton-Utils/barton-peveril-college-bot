@@ -142,7 +142,15 @@ class Command {
 
 		}
 		else if (command === 'preview') {
-			return interaction.reply('preview');
+			const embed = new Discord.MessageEmbed()
+				.setColor('#f5abff')
+				.setAuthor(interaction.user.tag, interaction.user.displayAvatarURL({ dynamic: true }))
+				.setImage(entry[0].img)
+				.setTitle(`Happy Birthday ${entry[0].name === 'DISCORD_USER' ? interaction.user.username : entry[0].name}!`)
+				.setDescription(entry[0].message)
+				.setTimestamp();
+
+			return interaction.reply({ embeds: [ embed ] });
 		}
 		else if (command === 'clear' || command === 'reset' || command === 'wipe') {
 			await client.DB.queries.delBirthday(interaction.user.id);

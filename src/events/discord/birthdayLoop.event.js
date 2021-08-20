@@ -1,8 +1,5 @@
 const { KeyvBuilder, Driver } = require('cloudlink-hv/lib/keyv');
-const { Permissions } = require('discord.js');
-
-const i18n = require('../../assets/i18n/i18n.json');
-const prettyMs = require('pretty-ms');
+const Discord = require('discord.js');
 
 class Event {
 	constructor(parent, client) {
@@ -38,6 +35,18 @@ class Event {
 	async pre(client) {
 		return true;
 	}
+
+	birthdayEmbed(birthObj, member) {
+		const embed = new Discord.MessageEmbed()
+			.setColor('#f5abff')
+			.setAuthor(member.user.tag, member.user.displayAvatarURL({ dynamic: true }))
+			.setImage(birthObj[0].img)
+			.setTitle(`Happy Birthday ${birthObj[0].name === 'DISCORD_USER' ? member.displayName : birthObj[0].name}!`)
+			.setDescription(birthObj[0].message)
+			.setTimestamp();
+		return embed;
+	}
+
 	async process(client, chain) {
 		setInterval(async () =>{
 			// Work out todays date and then assign the date num and month num for fetching fro the db
@@ -52,14 +61,41 @@ class Event {
 			client.guilds.cache.get(process.env.COLLEGE_GUILD).members.cache.forEach(async member => {
 				if (member.roles.cache.has(process.env.BIRTHDAY_ROLE) && !ids.includes(member.id)) {
 					await member.roles.remove(process.env.BIRTHDAY_ROLE);
-					await member.setNickname(member.displayName.split(' ')[0]);
+					await member.setNickname(member.displayName.split(' 🍰')[0]);
 					await client.user.setActivity('over you dumbasses', {
 						type: 'WATCHING',
 					});
 				}
 			});
 
-		}, 1000);
+			if (ids.length !== 0 && ids.length === 1) {
+				const member = await client.guilds.cache.get(process.env.COLLEGE_GUILD).members.cache.get(ids[0]);
+				if (member.displayName.includes('🍰')) return;
+				await member.roles.add(process.env.BIRTHDAY_ROLE);
+				await client.user.setActivity(`${member.displayName}'s birthday party!`, {
+					type: 'WATCHING',
+				});
+				await member.setNickname(`${member.displayName} 🍰`);
+				await member.guild.channels.cache.get(process.env.ANNOUNCEMENT_CHANNEL).send(`<@${member.id}>`);
+				const msg = await member.guild.channels.cache.get(process.env.ANNOUNCEMENT_CHANNEL).send({ embeds : [this.birthdayEmbed(await client.DB.queries.getBirthday(ids[0]), member)] });
+				msg.react('🍰');
+			}
+			else if (ids.length !== 0 && ids.length > 1) {
+				await client.user.setActivity('birthday parties!', {
+					type: 'WATCHING',
+				});
+				ids.forEach(async (id) => {
+					const member = await client.guilds.cache.get(process.env.COLLEGE_GUILD).members.cache.get(id);
+					if (member.displayName.includes('🍰')) return;
+					await member.roles.add(process.env.BIRTHDAY_ROLE);
+					await member.setNickname(`${member.displayName} 🍰`);
+					await member.guild.channels.cache.get(process.env.ANNOUNCEMENT_CHANNEL).send(`<@${member.id}>`);
+					const msg = await member.guild.channels.cache.get(process.env.ANNOUNCEMENT_CHANNEL).send({ embeds : [this.birthdayEmbed(await client.DB.queries.getBirthday(id), member)] });
+					await msg.react('🍰');
+				});
+			}
+
+		}, 1800000);
 		return true;
 	}
 }
