@@ -406,7 +406,7 @@ class ClientAPI {
 		this.client.logger.alert(`Processing these global slash commands: ${slashCommandNames.join(', ').toUpperCase()}`);
 
 		await rest.put(
-			Routes.applicationGuildCommands('876869839300472835', '875736589836365864'),
+			Routes.applicationGuildCommands('876869839300472835', process.env.COLLEGE_GUILD),
 			{ body: slashCommands },
 		).catch(e => {
 			console.log(e);

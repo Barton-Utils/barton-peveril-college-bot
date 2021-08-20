@@ -44,6 +44,20 @@ class Query {
 
 		return await this.pool.query(statment, params);
 	}
+
+	async getSpecificBirthdayIDS(day, month) {
+		const statment = 'SELECT id FROM BIRTHDAY WHERE day = ? AND month = ?';
+		const params = [day, month];
+
+		const result = await this.pool.query(statment, params);
+
+		const ids = [];
+		result.forEach(entry => {
+			ids.push(entry.id);
+		});
+
+		return ids;
+	}
 }
 
 module.exports = Query;

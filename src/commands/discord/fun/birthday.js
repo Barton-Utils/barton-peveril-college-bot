@@ -50,7 +50,7 @@ class Command {
 		const embed = new Discord.MessageEmbed()
 			.setColor('BLUE')
 			.setTitle('ℹ️ Birthday Help')
-			.setDescription(':white_small_square: `/birthday setup DD MM YYYY` This would allow you to setup your birthday!\n:white_small_square: `/birthday info` Give you information on your birthday if you have one entered\n:white_small_square: `/birthday preview` Preview your birthday announcement\n:white_small_square: `/birthday setImage <image>` Sets your birthday image to any you want bear in mind some gifs don\'t work\n:white_small_square: `/birthday setMessage <message>` This would allow you to set yourself a birthday message\n:white_small_square: `/birthday clear` Removes **ALL** of your birthday info from the bot and its database')
+			.setDescription(':white_small_square: `/birthday setup DD MM YYYY` This would allow you to setup your birthday!\n:white_small_square: `/birthday info` Give you information on your birthday if you have one entered\n:white_small_square: `/birthday preview` Preview your birthday announcement\n:white_small_square: `/birthday setImage <image>` Sets your birthday image to any you want bear in mind some gifs don\'t work\n:white_small_square: `/birthday setMessage <message>` This would allow you to set yourself a birthday message\n:white_small_square: `/birthday clear` Removes **ALL** of your birthday info from the bot and its database');
 		return embed;
 	}
 
