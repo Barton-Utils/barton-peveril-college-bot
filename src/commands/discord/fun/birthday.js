@@ -46,6 +46,14 @@ class Command {
 		return embed;
 	}
 
+	helpEmbed() {
+		const embed = new Discord.MessageEmbed()
+			.setColor('BLUE')
+			.setTitle('ℹ️ Birthday Help')
+			.setDescription(':white_small_square: `/birthday setup DD MM YYYY` This would allow you to setup your birthday!\n:white_small_square: `/birthday info` Give you information on your birthday if you have one entered\n:white_small_square: `/birthday preview` Preview your birthday announcement\n:white_small_square: `/birthday setImage <image>` Sets your birthday image to any you want bear in mind some gifs don\'t work\n:white_small_square: `/birthday setMessage <message>` This would allow you to set yourself a birthday message\n:white_small_square: `/birthday clear` Removes **ALL** of your birthday info from the bot and its database')
+		return embed;
+	}
+
 	async pre(client, message, args) {
 		// const [Commands] = await client.database.models.Commands.findOrCreate({
 		// 	where: {
@@ -85,23 +93,28 @@ class Command {
 			return d instanceof Date && !isNaN(d);
 		}
 
-		const date = new Date("20/01/2005");
-
-		if (!isValidDate(date)) 
-
 		const entry = await client.DB.queries.getBirthday(interaction.user.id);
 
 		if (interaction.options._hoistedOptions[0] === undefined) {
-			return interaction.reply('help');
+			return interaction.reply({ embeds: [ this.helpEmbed() ] });
 		}
 
 		const args = interaction.options._hoistedOptions[0].value.split(' ');
 		const command = args.shift().toLowerCase();
 
 		if (command === 'setup') {
+			if (entry.length > 0) return interaction.reply({ embeds: [ this.errorEmbed('You already have a birthday setup run /birthday clear to wipe it') ] });
 			if (args.length === 3) {
-				const date = new Date(`${args[2]}/${args[0]}/${args[1]}`);
-			} else {
+				const date = new Date(`${args[2]}/${args[1]}/${args[0]}`);
+				if (isValidDate(date)) {
+					await client.DB.queries.addBirthday(interaction.user.id, args[0], args[1], args[2]);
+					return interaction.reply({ embeds: [ this.successEmbed('Setup your birthday run /birthday info too see its details') ] });
+				}
+				else {
+					return interaction.reply({ embeds: [ this.errorEmbed('Please supply valid date E.G. 20 01 2005') ] });
+				}
+			}
+			else {
 				return interaction.reply({ embeds: [ this.errorEmbed('Please supply your DOB in the format DD MM YYYY E.G. 20 01 2005') ] });
 			}
 		}
@@ -135,7 +148,7 @@ class Command {
 			await client.DB.queries.delBirthday(interaction.user.id);
 			return interaction.reply({ embeds: [ this.successEmbed('Removed your birthday from the database (if there was one) to add it again run /birthday setup') ] });
 		}
-		else if (command === 'setImage' || command === 'image') {
+		else if (command === 'setimage' || command === 'image') {
 			if (entry.length === 1) {
 				if (args.length === 0) {
 					return interaction.reply({ embeds: [ this.errorEmbed('You need to supply a image URL to update the image: /birthday setImage https://image.com') ] });
@@ -175,7 +188,7 @@ class Command {
 			}
 		}
 		else {
-			return interaction.reply('help');
+			return interaction.reply({ embeds: [ this.helpEmbed() ] });
 		}
 	}
 

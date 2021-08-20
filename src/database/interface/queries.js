@@ -37,6 +37,13 @@ class Query {
 
 		return await this.pool.query(statment, params);
 	}
+
+	async addBirthday(id, day, month, year) {
+		const statment = 'INSERT INTO BIRTHDAY (ID, DAY, MONTH, YEAR) VALUES (?,?,?,?)';
+		const params = [id, day, month, year];
+
+		return await this.pool.query(statment, params);
+	}
 }
 
 module.exports = Query;
