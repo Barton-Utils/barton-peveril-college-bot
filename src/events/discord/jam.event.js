@@ -37,12 +37,12 @@ class Event {
 		if (message.author.bot) return;
 		if (!message.content.toLowerCase().includes('jam')) return;
 
-		try {
-			await message.author.send('https://tenor.com/view/jelly-jam-jam-gay-rainbow-primerp-gif-15265251');
-		}
-		catch {
-			this.client.logger.alert('JAM: User has DM\'s disabled!');
-		}
+		// try {
+		// 	await message.author.send('https://tenor.com/view/jelly-jam-jam-gay-rainbow-primerp-gif-15265251');
+		// }
+		// catch {
+		// 	this.client.logger.alert('JAM: User has DM\'s disabled!');
+		// }
 
 
 		return true;
