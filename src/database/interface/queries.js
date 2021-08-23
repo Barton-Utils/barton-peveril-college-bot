@@ -58,6 +58,41 @@ class Query {
 
 		return ids;
 	}
+
+	async checkVerification(code) {
+		const statment = 'SELECT * FROM VERIFY WHERE uuid = ?';
+		const params = [code];
+
+		return await this.pool.query(statment, params);
+	}
+
+	async addVerificationCode(id, code, email) {
+		const statment = 'INSERT INTO VERIFY (id, uuid, email) VALUES (?, ?, ?)';
+		const params = [id, code, email];
+
+		return await this.pool.query(statment, params);
+	}
+
+	async deleteVerificationCode(code) {
+		const statment = 'DELETE FROM VERIFY WHERE uuid = ?';
+		const params = [code];
+
+		return await this.pool.query(statment, params);
+	}
+
+	async addMember(id, email) {
+		const statment = 'INSERT INTO MEMBERS (id, email) VALUES (?, ?)';
+		const params = [id, email];
+
+		return await this.pool.query(statment, params);
+	}
+
+	async getMemberByEmail(email) {
+		const statment = 'SELECT * FROM MEMBERS WHERE email = ?';
+		const params = [email];
+
+		return await this.pool.query(statment, params);
+	}
 }
 
 module.exports = Query;

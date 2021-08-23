@@ -11,11 +11,16 @@ const Database = require('./database/interface/connector.js');
 let DB = new Database();
 const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 
+const express = require('express');
+
+const verificationEvent = require('./events/web/verification.event.js');
+const app = express();
 const chalk = require('chalk');
 const chalkTable = require('chalk-table');
 const path = require('path');
 const config = require('./utility/config');
 const logger = require('./utility/functions/logger');
+const uuid = require('./utility/functions/UUID');
 
 /**
  * Bootstrap the Project. This is a feature of the Node.js Template Environment, please do not remove this function.
@@ -54,6 +59,8 @@ class ClientAPI {
 		this.basePath = path.resolve(__dirname, '../');
 
 		this.client.DB = DB;
+
+		this.client.UUID = uuid;
 
 		this.client.logger = logger;
 		this.client.version = require(path.resolve(path.join(this.basePath, 'package.json'))).version;
@@ -288,24 +295,9 @@ class ClientAPI {
 					});
 					history.push({ id: chalk.green(autoInc), folder: chalk.green(file.folder), file: chalk.green(file.name), triggers: chalk.green(event._state.options.event), status: chalk.green('PASS') });
 				}
-				else if(file.folder === 'websocket') {
-					if (this.client.services[file.folder].eventPath === undefined) {
-						this.client.services[file.folder].eventPath = file.directory;
-					}
-					this.client.services[file.folder].eventStore.events.push(event);
-					history.push({ id: chalk.green(autoInc), folder: chalk.green(file.folder), file: chalk.green(file.name), triggers: chalk.green(event._state.options.event), status: chalk.green('PASS') });
-				}
-				else if (file.folder === 'ws') {
-					const tmpName = 'websocket';
-					if (this.client.services[tmpName].wsEvent.eventPath === undefined) {
-						this.client.services[tmpName].wsEvent.eventPath = file.directory;
-					}
-					this.client.services[tmpName].wsEvent.eventStore.events.push(event);
-					history.push({ id: chalk.green(autoInc), folder: chalk.green(file.folder), file: chalk.green(file.name), triggers: chalk.green(event._state.options.event), status: chalk.green('PASS') });
-				}
 				else {
 					// Event something else
-					console.log(file.folder, file.name);
+					logger.warn(`${file.folder.toUpperCase()} - ${file.name}`);
 				}
 			}
 			catch (err) {
@@ -425,6 +417,23 @@ class ClientAPI {
 			this.client.logger.error('client:auth_fail -> Failed to authenticate with Discord.js Gateway: ' + err.message);
 			throw new Error('discord:gateway_auth_fail');
 		});
+
+		// Render verification server and initilize it
+		await this.startVerificaitonServer();
+	}
+
+	async startVerificaitonServer() {
+		this.client.logger.alert('Verification Server | STARTING...');
+
+		// Fudging arround with the client because for some reason it doesn't have the correct scope
+		const client = this.client;
+
+		app.get('/:id', function(req, res) {
+			verificationEvent(client, req.params.id, req, res);
+		});
+
+		app.listen(process.env.VERIFICATION_PORT);
+		this.client.logger.alert(`Verification server | Server has started and is listening on ${process.env.VERIFICATION_PORT}`);
 	}
 }
 

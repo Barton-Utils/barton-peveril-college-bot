@@ -26,7 +26,7 @@ GuildMember {
     vanityURLCode: null,
     nsfwLevel: 'DEFAULT',
     discoverySplash: null,
-    memberCount: 93,
+    memberCount: 114,
     large: true,
     applicationId: null,
     afkTimeout: 300,
@@ -51,21 +51,31 @@ GuildMember {
     emojis: GuildEmojiManager { guild: [Circular *1] },
     stickers: GuildStickerManager { guild: [Circular *1] }
   },
-  joinedTimestamp: 1629138176278,
+  joinedTimestamp: 1628881098342,
   premiumSinceTimestamp: null,
   deleted: false,
   nickname: null,
   pending: false,
-  _roles: [ '875741502536548352', '875738513511956510', '876893810184040519' ],
-  user: ClientUser {
-    id: '876869839300472835',
-    bot: true,
+  _roles: [
+    '875741719050715166',
+    '875738513511956510',
+    '877201919276363808',
+    '875779645881061457',
+    '875775712244662323',
+    '875782820604293170',
+    '876905734821003346',
+    '875743167746560010',
+    '875743490745720892',
+    '875736589836365864',
+    '875738513511956510'
+  ],
+  user: User {
+    id: '436876982794452992',
+    bot: false,
     system: false,
-    flags: UserFlags { bitfield: 0 },
-    username: 'Barton Peveril College',
-    discriminator: '2116',
-    avatar: 'cf18cad3b26c7f282e3cd42caddaa702',
-    verified: true,
-    mfaEnabled: true
+    flags: UserFlags { bitfield: 128 },
+    username: 'iPirie',
+    discriminator: '8558',
+    avatar: '3286c901a78f7cf01a76cafa1a1c0441'
   }
 }

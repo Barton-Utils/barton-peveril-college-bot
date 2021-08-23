@@ -26,7 +26,7 @@ GuildMember {
     vanityURLCode: null,
     nsfwLevel: 'DEFAULT',
     discoverySplash: null,
-    memberCount: 95,
+    memberCount: 114,
     large: true,
     applicationId: null,
     afkTimeout: 300,
@@ -51,28 +51,19 @@ GuildMember {
     emojis: GuildEmojiManager { guild: [Circular *1] },
     stickers: GuildStickerManager { guild: [Circular *1] }
   },
-  joinedTimestamp: 1628881098342,
+  joinedTimestamp: 1629409111482,
   premiumSinceTimestamp: null,
   deleted: false,
-  nickname: 'a',
+  nickname: null,
   pending: false,
-  _roles: [
-    '877190340069695589',
-    '875743167746560010',
-    '875779645881061457',
-    '875782820604293170',
-    '875775712244662323',
-    '876905734821003346',
-    '875743490745720892',
-    '875741719050715166'
-  ],
+  _roles: [ '877201741542744094', '875736589836365864' ],
   user: User {
-    id: '436876982794452992',
+    id: '720177238430974044',
     bot: false,
     system: false,
-    flags: UserFlags { bitfield: 128 },
-    username: 'iPirie',
-    discriminator: '8558',
-    avatar: '3286c901a78f7cf01a76cafa1a1c0441'
+    flags: UserFlags { bitfield: 256 },
+    username: 'iPirie Development',
+    discriminator: '5489',
+    avatar: '2d4326d18a56896ddc4b8a759c061ecb'
   }
 }
