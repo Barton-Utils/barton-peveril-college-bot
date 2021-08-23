@@ -111,7 +111,7 @@ class Event {
 		}
 		else if (message.content.trim().split(' ').length === 1) {
 			if (message.content.match(/^21\w{2}\d{4}@barton.ac.uk$/gi)) {
-				const doesMemberExist = await client.DB.queries.getMemberByEmail(message.content)
+				const doesMemberExist = await client.DB.queries.getMemberByEmail(message.content);
 
 				if (doesMemberExist.length !== 0) {
 					message.channel.send({ content: `<@${message.author.id}>,`, embeds: [ this.errorEmbed('The email you supplied is already in use please contact an admin if this is a mistake!') ] }).then(msg => {

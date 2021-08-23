@@ -71,6 +71,7 @@ module.exports = async (client, id, req, res) => {
 	if (result.length !== 0) {
 		await client.DB.queries.deleteVerificationCode(id);
 		await client.DB.queries.addMember(result[0].id, result[0].email);
+		await client.guilds.cache.get(process.env.COLLEGE_GUILD).members.cache.get(result[0].id).roles.add(process.env.MEMBER_ROLE);
 		res.end(successHTML.replace('{{discord}}', client.guilds.cache.get(process.env.COLLEGE_GUILD).members.cache.get(result[0].id).user.tag).replace('{{email}}', result[0].email));
 	}
 	else {
