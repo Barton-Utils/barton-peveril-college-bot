@@ -176,7 +176,7 @@ class Command {
 				return interaction.reply({ embeds: [ this.errorEmbed('You need to setup your birthday before you can change its image!') ] });
 			}
 		}
-		else if (command === 'setMessage' || command === 'message') {
+		else if (command === 'setmessage' || command === 'message') {
 			if (entry.length === 1) {
 				if (args.length < 2) {
 					return interaction.reply({ embeds: [ this.errorEmbed('You need to have a birthday message longer than 2 words!') ] });
