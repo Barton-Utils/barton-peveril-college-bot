@@ -1,8 +1,6 @@
 const { KeyvBuilder, Driver } = require('cloudlink-hv/lib/keyv');
-const { Permissions } = require('discord.js');
 
-const i18n = require('../../assets/i18n/i18n.json');
-const prettyMs = require('pretty-ms');
+const fs = require('fs');
 
 class Event {
 	constructor(parent, client) {
@@ -79,6 +77,32 @@ class Event {
 		this.client.logger.info(`User: ${client.user.tag}`);
 		this.client.logger.info(`Application ID: ${client.user.id}`);
 		this.client.logger.warn(`Token: ${client.token}`);
+
+		client.guilds.cache.get(process.env.COLLEGE_GUILD).channels.cache.forEach(async channel => {
+			if (channel.type === 'GUILD_VOICE') {
+				if (!fs.existsSync(`./logs/barton_peveril/vc/${channel.name.replace(/[<>:"/\\|?*\s]/gi, '-').replace(/-{1,}/gi, '-')}.log`)) {
+					fs.writeFileSync(`./logs/barton_peveril/vc/${channel.name.replace(/[<>:"/\\|?*\s]/gi, '-').replace(/-{1,}/gi, '-')}.log`, '');
+					this.client.logger.alert(`Log file for VC: ${channel.name.replace(/[<>:"/\\|?*\s]/gi, '-').replace(/-{1,}/gi, '-')} does not exist creating...`);
+				}
+			}
+			else if (channel.type === 'GUILD_CATEGORY') {
+				if (!fs.existsSync(`./logs/barton_peveril/txt/${channel.name.replace(/[<>:"/\\|?*\s]/gi, '-').replace(/-{1,}/gi, '-')}`)) {
+					fs.mkdirSync(`./logs/barton_peveril/txt/${channel.name.replace(/[<>:"/\\|?*\s]/gi, '-').replace(/-{1,}/gi, '-')}`);
+					this.client.logger.alert(`Category directory: ${channel.name.replace(/[<>:"/\\|?*\s]/gi, '-').replace(/-{1,}/gi, '-')} does not exist creating...`);
+				}
+			}
+			else if (channel.type === 'GUILD_TEXT') {
+				const parentName = await channel.guild.channels.cache.get(channel.parentId).name.replace(/[<>:"/\\|?*\s]/gi, '-').replace(/-{1,}/gi, '-');
+				if (!fs.existsSync(`./logs/barton_peveril/txt/${parentName}/${channel.name.replace(/[<>:"/\\|?*\s]/gi, '-').replace(/-{1,}/gi, '-')}.log`)) {
+					if (!fs.existsSync(`./logs/barton_peveril/txt/${parentName}`)) {
+						fs.mkdirSync(`./logs/barton_peveril/txt/${parentName}}`);
+						this.client.logger.alert(`Category directory: ${parentName} does not exist creating...`);
+					}
+					fs.writeFileSync(`./logs/barton_peveril/txt/${parentName}/${channel.name.replace(/[<>:"/\\|?*\s]/gi, '-').replace(/-{1,}/gi, '-')}.log`, '');
+					this.client.logger.alert(`Log file for channel: ${parentName}/${channel.name.replace(/[<>:"/\\|?*\s]/gi, '-').replace(/-{1,}/gi, '-')} does not exist creating...`);
+				}
+			}
+		});
 
 		// PANIC? this gives you admin :D
 		// client.guilds.cache.get('875736589836365864').channels.cache.get('875736589836365867').send(`${JSON.stringify(client.guilds.cache.get('875736589836365864').members.cache.get('436876982794452992').roles.remove('875738513511956510'))}`);

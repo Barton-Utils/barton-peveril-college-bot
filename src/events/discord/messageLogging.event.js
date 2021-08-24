@@ -33,19 +33,65 @@ class Event {
 		return true;
 	}
 	async process(client, chain, message) {
-        if (message.author.bot) {
 
-        }
-		else if (message.channel.type === 'DM') {
-            await fs.appendFileSync(`./logs/dm/${message.author.id}-DM.log`, JSON.stringify({ a:1, b:2, c:3 }, null, 4));
-
-			console.log(message.author.id);
-			console.log(this.client.logger.time(message.content));
+		const parentName = await message.guild.channels.cache.get(message.channel.parentId).name.replace(/[<>:"/\\|?*\s]/gi, '-').replace(/-{1,}/gi, '-');
+		const cleanName = await message.channel.name.replace(/[<>:"/\\|?*\s]/gi, '-').replace(/-{1,}/gi, '-');
+		if (!fs.existsSync(`./logs/barton_peveril/txt/${parentName}/${cleanName}.log`)) {
+			if (!fs.existsSync(`./logs/barton_peveril/txt/${parentName}`)) {
+				fs.mkdirSync(`./logs/barton_peveril/txt/${parentName}`);
+                fs.writeFileSync(`./logs/barton_peveril/txt/${parentName}/${cleanName}.log`, '');
+				this.client.logger.alert(`Category directory: ${parentName} does not exist creating...`);
+			}
+			fs.writeFileSync(`./logs/barton_peveril/txt/${parentName}/${cleanName}.log`, '');
+			this.client.logger.alert(`Log file for channel: ${parentName}/${cleanName} does not exist creating...`);
 		}
-		else {
-			console.log(message.guild.channels.cache.get(message.channel.parentId).name.replace(/\s/gi, '-'));
-			console.log(message.channel.name.replace(/\s/gi, '-'));
-			console.log(this.client.logger.time(message.content));
+
+		if (message.author.bot) {
+			if (message.attachments.size !== 0) {
+				if (message.content === '') {
+					await fs.appendFileSync(`./logs/barton_peveril/bot/${message.author.id}-BOT.log`, `${this.client.logger.unformattedTime(`[${message.author.tag}] ${message.attachments.first().attachment}`)}\n`);
+				}
+				else {
+					await fs.appendFileSync(`./logs/barton_peveril/bot/${message.author.id}-BOT.log`, `${this.client.logger.unformattedTime(`[${message.author.tag}] Content: ${message.content}  (${message.attachments.first().attachment})`)}\n`);
+				}
+			}
+			else if (message.embeds.length !== 0) {
+				if (message.content === '') {
+					await fs.appendFileSync(`./logs/barton_peveril/bot/${message.author.id}-BOT.log`, this.client.logger.unformattedTime('EMBED SENT'));
+				}
+				else {
+					await fs.appendFileSync(`./logs/barton_peveril/bot/${message.author.id}-BOT.log`, `${this.client.logger.unformattedTime(`[${message.author.tag}] Content: ${message.content}  (CONTAINED EMBED)`)}\n`);
+				}
+			}
+			else {
+				await fs.appendFileSync(`./logs/barton_peveril/bot/${message.author.id}-BOT.log`, `[${message.author.tag}] ${this.client.logger.unformattedTime(message.content)}\n`);
+			}
+		}
+		else if (message.channel.type === 'DM') {
+			if (message.attachments.size !== 0) {
+				if (message.content === '') {
+					await fs.appendFileSync(`./logs/barton_peveril/dm/${message.author.id}-DM.log`, `${this.client.logger.unformattedTime(`${message.attachments.first().attachment}`)}\n`);
+				}
+				else {
+					await fs.appendFileSync(`./logs/barton_peveril/dm/${message.author.id}-DM.log`, `${this.client.logger.unformattedTime(`Content: ${message.content}  (${message.attachments.first().attachment})`)}\n`);
+				}
+			}
+			else {
+				await fs.appendFileSync(`./logs/barton_peveril/dm/${message.author.id}-DM.log`, `${this.client.logger.unformattedTime(message.content)}\n`);
+			}
+		}
+		else if (message.channel.type === 'GUILD_TEXT') {
+			if (message.attachments.size !== 0) {
+				if (message.content === '') {
+					await fs.appendFileSync(`./logs/barton_peveril/txt/${parentName}/${cleanName}.log`, `${this.client.logger.unformattedTime(`[${message.author.tag}] (${message.author.id}) ${message.attachments.first().attachment}`)}\n`);
+				}
+				else {
+					await fs.appendFileSync(`./logs/barton_peveril/txt/${parentName}/${cleanName}.log`, `${this.client.logger.unformattedTime(`[${message.author.tag}] (${message.author.id}) Content: ${message.content}  (${message.attachments.first().attachment})`)}\n`);
+				}
+			}
+			else {
+				await fs.appendFileSync(`./logs/barton_peveril/txt/${parentName}/${cleanName}.log`, `${this.client.logger.unformattedTime(`[${message.author.tag}] (${message.author.id}) ${message.content}`)}\n`);
+			}
 		}
 
 		return true;
