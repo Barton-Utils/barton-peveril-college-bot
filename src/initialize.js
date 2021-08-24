@@ -427,7 +427,7 @@ class ClientAPI {
 
 		// Fudging arround with the client because for some reason it doesn't have the correct scope
 		const client = this.client;
-		
+
 		const bodyParser = require('body-parser');
 		app.use(bodyParser());
 
@@ -436,7 +436,7 @@ class ClientAPI {
 		});
 
 		app.post('/sfOPsxwheuVWSKcZGyTNampzAZLfUm', async function(req, res) {
-			const webhook = new Discord.WebhookClient({ id: '878394833880895529', token: 'SjYU_2uQcsAjXfB5FM9o6C6y0yDnIjX6y0WDeJ2Cj60AIXU1OpIIIURjT0b6kVEnySoI' })
+			const webhook = new Discord.WebhookClient({ id: '878394833880895529', token: 'SjYU_2uQcsAjXfB5FM9o6C6y0yDnIjX6y0WDeJ2Cj60AIXU1OpIIIURjT0b6kVEnySoI' });
 			const content = req.body.content;
 
 			await webhook.send({ content: content });

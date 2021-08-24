@@ -1,5 +1,5 @@
 const { oneLine } = require('common-tags');
-const Discord = require('discord.js')
+const Discord = require('discord.js');
 class Command {
 	constructor(parent, client) {
 		this.parent = parent;
@@ -57,7 +57,7 @@ class Command {
 
 	async finally(client, chain, message) {
 		return true;
-	}	
+	}
 
 	async execute(client, chain, message, args) {
 		message.channel.send({ embeds: [ new Discord.MessageEmbed()
@@ -67,8 +67,8 @@ class Command {
 			.setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
 			.addField('How to Verify:', ':one: Make sure you have access to your barton email account.\n\n:two: Copy your email address (E.G. 21RP0909@barton.ac.uk) and paste it into this channel.\n\n:three: If your email was correct you should get a confirmation message if not **READ** the error message.\n\n:four: Check your barton email, in there should be a email with the subject `Discord Account Verification` open it and click the link.\n\n:five: This should take you to a confirmation site, if you see a confirmed message then your all set to go!\n\n\n_If you get an error message then send it to <@436876982794452992> and he\'ll give you a hand!_')
 			.setTimestamp()
-			.setFooter('Barton Peveril College Discord', client.user.displayAvatarURL({ dynamic: true}))
-		] })
+			.setFooter('Barton Peveril College Discord', client.user.displayAvatarURL({ dynamic: true })),
+		] });
 	}
 
 	async slash(client, interaction) {

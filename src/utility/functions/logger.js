@@ -22,4 +22,7 @@ module.exports = {
 	alert: function(message) {
 		log(`${chalk.bold.blue('(ALERT)')} ${chalk.dim.yellow(`[${dateFormat(now, 'yyyy-mm-dd HH:MM:ss')}]`)} ${message}`);
 	},
+	time: function(message) {
+		return `${chalk.dim.yellow(`[${dateFormat(now, 'yyyy-mm-dd HH:MM:ss')}]`)} | ${message}`;
+	},
 };
