@@ -39,7 +39,7 @@ class Event {
 		if (!fs.existsSync(`./logs/barton_peveril/txt/${parentName}/${cleanName}.log`)) {
 			if (!fs.existsSync(`./logs/barton_peveril/txt/${parentName}`)) {
 				fs.mkdirSync(`./logs/barton_peveril/txt/${parentName}`);
-                fs.writeFileSync(`./logs/barton_peveril/txt/${parentName}/${cleanName}.log`, '');
+				fs.writeFileSync(`./logs/barton_peveril/txt/${parentName}/${cleanName}.log`, '');
 				this.client.logger.alert(`Category directory: ${parentName} does not exist creating...`);
 			}
 			fs.writeFileSync(`./logs/barton_peveril/txt/${parentName}/${cleanName}.log`, '');
@@ -47,6 +47,7 @@ class Event {
 		}
 
 		if (message.author.bot) {
+			if (!fs.existsSync(`./logs/barton_peveril/bot/${message.author.id}-BOT.log`)) fs.writeFileSync(`./logs/barton_peveril/bot/${message.author.id}-BOT.log`, '');
 			if (message.attachments.size !== 0) {
 				if (message.content === '') {
 					await fs.appendFileSync(`./logs/barton_peveril/bot/${message.author.id}-BOT.log`, `${this.client.logger.unformattedTime(`[${message.author.tag}] ${message.attachments.first().attachment}`)}\n`);
