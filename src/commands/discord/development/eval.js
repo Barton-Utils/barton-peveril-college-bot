@@ -3,13 +3,14 @@ const clean = require('../../../utility/functions/clean');
 const fs = require('fs');
 const Discord = require('discord.js');
 const ms = require('ms');
+const fetch = require('node-fetch');
 
 class Command {
 	constructor(parent, client) {
 		this.parent = parent;
 		this.client = client;
 		this._state = {
-			triggers: ['eval'],
+			triggers: ['eval', 'evalme'],
 			description: oneLine`
 			This is a command which allows code to be executed through discord DANGER`,
 			options: {
