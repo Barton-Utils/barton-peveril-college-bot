@@ -37,9 +37,15 @@ class Event {
 	async process(client, chain, message) {
 		if (message.channel.type === 'DM') return;
 		if (message.author.bot) return;
-		if (!/#(\d|[abcdef]){6}/gi.test(message.content)) return;
+		if (!message.content.toLowerCase().includes('jam')) return;
 
-		message.channel.send(`https://singlecolorimage.com/get/${message.content.split('#')[1]}/400x100`);
+		// try {
+		// 	await message.author.send('https://tenor.com/view/jelly-jam-jam-gay-rainbow-primerp-gif-15265251');
+		// }
+		// catch {
+		// 	this.client.logger.alert('JAM: User has DM\'s disabled!');
+		// }
+
 
 		return true;
 	}
