@@ -110,7 +110,7 @@ class Event {
 			});
 		}
 		else if (message.content.trim().split(' ').length === 1) {
-			if (message.content.match(/^21\w{2}\d{4}@barton.ac.uk$/gi)) {
+			if (message.content.match(/^(21|20)\w{2}\d{4}@barton.ac.uk$/gi)) {
 				const doesMemberExist = await client.DB.queries.getMemberByEmail(message.content);
 
 				if (doesMemberExist.length !== 0) {

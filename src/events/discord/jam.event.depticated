@@ -38,6 +38,7 @@ class Event {
 		if (message.channel.type === 'DM') return;
 		if (message.author.bot) return;
 		if (!/#(\d|[abcdef]){6}/gi.test(message.content)) return;
+		if (message.channel.id !== '881140015814541413') return;
 
 		message.channel.send(`https://singlecolorimage.com/get/${message.content.split('#')[1]}/400x100`);
 
