@@ -1,0 +1,51 @@
+#!/usr/bin/env node
+
+const prefix = process.env.PREFIX;
+
+class Event {
+	constructor(parent, client) {
+		this.clientAPI = parent;
+		this.client = client;
+		this._state = {
+			options: {
+				event: 'messageCreate',
+			},
+			author: 'Rubens G Pirie <rubens.pirie@gmail.com> [436876982794452992]',
+			maintainers: [{
+				name: 'Rubens G Pirie',
+				email: 'rubens.pirie@gmail.com',
+				discord_id: '436876982794452992',
+			}],
+		};
+	}
+
+	async update(parent) {
+		return true;
+	}
+
+	async post(client, chain) {
+		return true;
+	}
+
+	async finally(client) {
+		return true;
+	}
+
+	async pre(client) {
+		return true;
+	}
+	async process(client, chain, message) {
+		if (message.channel.type === 'DM') return;
+		if (message.author.bot) return;
+		if (message.channel.id !== '882356265706213456') return;
+
+		await client.DB.query('INSERT INTO MEMBERS (id, email) VALUES (?, ?)', [message.mentions.members.first().id, message.content.split('|')[1].trim()]);
+		message.channel.send(`added \`${message.mentions.members.first().id}\` with email \`${message.content.split('|')[1]}\``);
+		message.delete();
+		return true;
+	}
+}
+
+module.exports = {
+	Event,
+};
